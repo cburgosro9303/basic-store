@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: batch
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: none
+    open-in-view: false
+    show-sql: true
+    properties:
+      org:
+        hibernate:
+          envers:
+            default_schema: audit
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/experis
+    password: experis_password140121
+    username: worldoffice
+
+  main:
+    banner-mode: "off"
+
+server:
+  port: ${PORT:8080}
+  mvc:
+    favicon:
+      enabled: false
+logging:
+  level:
+    ROOT: INFO
+    com.experis: DEBUG

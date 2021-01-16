@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  database:    
+    build: ./    
+    environment:
+      - POSTGRES_USER=worldoffice
+      - POSTGRES_PASSWORD=experis_password140121
+      - POSTGRES_DB=experis
+    ports:
+      - "5432:5432"
