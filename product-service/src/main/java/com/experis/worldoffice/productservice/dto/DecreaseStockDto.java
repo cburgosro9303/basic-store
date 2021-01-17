@@ -2,18 +2,15 @@ package com.experis.worldoffice.productservice.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 public class DecreaseStockDto implements Serializable {
 
     @NotNull
-    @Positive
     @Min(1L)
     private Long productId;
 
     @NotNull
-    @Positive
     @Min(1L)
     private Long decreaseValue;
 

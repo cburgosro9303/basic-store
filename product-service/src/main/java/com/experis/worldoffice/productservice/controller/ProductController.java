@@ -5,54 +5,83 @@ import com.experis.worldoffice.productservice.dto.DecreaseStockDto;
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.dto.RequestFilterDto;
 import com.experis.worldoffice.productservice.exception.InsufficientStockException;
-import com.experis.worldoffice.productservice.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+/**
+ * Response to Product activity
+ */
+@Tag(name = "Product Controller", description = "Manage product request")
+public interface ProductController {
 
-@RestController
-@RequestMapping({"/product",})
-public class ProductController {
+    /**
+     * Find all registered products
+     *
+     * @param page number of page
+     * @param size size of page
+     * @return Paginated products
+     */
+    @Operation(summary = "Find all products",
+        description = "Find all products and return a paginated object")
+    @ApiResponse(
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(name = "Page",implementation = Page.class))
+    )
+    ResponseEntity<Page<ProductDto>> index(@Parameter(description = "number grater than or equal to 0") int page,
+                                           @Parameter(description = "number grater than to 0") int size);
 
-    private ProductService productService;
+    /**
+     * Search product and return their current stock
+     *
+     * @param productId
+     * @return CurrentExistenceDto
+     */
+    @Operation(summary = "Current Existence",
+        description = "Search product by their id and return current existence")
+    @ApiResponse(
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(name = "CurrentExistenceDto",implementation = CurrectExistenceDto.class))
+    )
+    ResponseEntity<CurrectExistenceDto> currentExistence(@Parameter(description = "Valid product id") Long productId);
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    /**
+     * Find all registered products with given filters
+     *
+     * @param page number of page
+     * @param size size of page
+     * @return Paginated products
+     */
+    @Operation(summary = "Find all products with given filters",
+        description = "Find all products and return a paginated object")
+    @ApiResponse(
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(name = "Page",implementation = Page.class))
+    )
+    ResponseEntity<Page<ProductDto>> indexFiltered(@Parameter(description = "number grater than or equal to 0") int page,
+                                    @Parameter(description = "number grater than to 0") int size,
+                                    @Parameter(description = "Filters required") RequestFilterDto requestFilter);
 
-
-    @GetMapping("/")
-    public ResponseEntity<?> index(@RequestParam(value = "page", defaultValue = "0") int page,
-                                   @RequestParam(value = "size", defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<ProductDto> productos= this.productService.findAll(pageable);
-        return ResponseEntity.ok(this.productService.findAll(pageable));
-    }
-
-    @GetMapping(name="/{id}/existence",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> currentExistence(@PathVariable("id") Long productId) {
-        CurrectExistenceDto currectExistenceDto = new CurrectExistenceDto(productId, this.productService.currentStock(productId));
-        return ResponseEntity.ok(currectExistenceDto);
-    }
-
-    @PostMapping(name="/",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> indexFiltered(@RequestParam(value = "page", defaultValue = "0") int page,
-                                           @RequestParam(value = "size", defaultValue = "10") int size,
-                                           @RequestBody @Valid RequestFilterDto requestFilter) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(this.productService.findAllWithFilters(requestFilter.getFilters(), pageable));
-    }
-
-    @PostMapping(value = "/decreaseStock",produces = MediaType.ALL_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> decreaseStock(@RequestBody @Valid DecreaseStockDto decreaseStockDto) throws InsufficientStockException {
-        return productService.decreaseStock(decreaseStockDto.getProductId(), decreaseStockDto.getDecreaseValue()) ?
-            ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
-    }
+    /**
+     * decrease stock of a product
+     *
+     * @param decreaseStockDto
+     * @return Boolean true if success else false
+     * @throws InsufficientStockException when decrease value is greater than current product stock
+     */
+    @Operation(summary = "Decrease Stock",
+        description = "Decrease current product existence of given id")
+    @ApiResponse(
+        content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(name = "Boolean",implementation = Boolean.class))
+    )
+    ResponseEntity<Boolean> decreaseStock(DecreaseStockDto decreaseStockDto) throws InsufficientStockException;
 
 
 }

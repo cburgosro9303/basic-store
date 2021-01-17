@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class generate bean for load basic info to apidoc
+ */
 @Configuration
 public class OpenApiConfiguration {
 

@@ -1,6 +1,6 @@
 package com.experis.worldoffice.productservice.unit.controller;
 
-import com.experis.worldoffice.productservice.controller.ProductController;
+import com.experis.worldoffice.productservice.controller.impl.ProductControllerImpl;
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ProductController.class)
-class ProductControllerTest {
+@WebMvcTest(ProductControllerImpl.class)
+class ProductControllerImplTest {
 
     @Autowired
     private MockMvc mvc;
@@ -55,7 +55,7 @@ class ProductControllerTest {
     private MvcResult mvcResult;
     private ObjectMapper om;
 
-    public ProductControllerTest() {
+    public ProductControllerImplTest() {
         this.rand = new Random();
         this.productDtos = new ArrayList<>();
         this.om=new ObjectMapper();

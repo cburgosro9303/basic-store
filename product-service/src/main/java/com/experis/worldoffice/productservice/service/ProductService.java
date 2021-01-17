@@ -19,6 +19,13 @@ public interface ProductService {
     Boolean decreaseStock(Long productId, Long decreaseQuantity) throws InsufficientStockException;
     Long currentStock(Long productId);
     Page<ProductDto> findByFilters(Specification<ProductDto> specification,Pageable pageable);
+
+    /**
+     * Build a Specifitation<Product> with filter list and compile in one for make a query method with Repository
+     * @param filters
+     * @param pageable
+     * @return
+     */
     Page<ProductDto> findAllWithFilters(List<ProductFilterDto> filters, Pageable pageable);
     Page<ProductDto> findAll(Pageable pageable);
 }

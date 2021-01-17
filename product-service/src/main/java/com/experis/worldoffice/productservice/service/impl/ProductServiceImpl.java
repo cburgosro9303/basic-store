@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final static Logger log = LogManager.getLogger(ProductServiceImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
     private final ObjectMapper om;
@@ -74,8 +74,8 @@ public class ProductServiceImpl implements ProductService {
             Long finalStock = this.currentStock(productId);
             return initialStock - finalStock == decreaseQuantity;
         } else {
-            log.error("There are {} units in inventory of productId {} and {} was require",
-                initialStock, productId,decreaseQuantity);
+            LOG.error("There are {} units in inventory of productId {} and {} was require",
+                initialStock, productId, decreaseQuantity);
             throw new InsufficientStockException();
         }
     }
