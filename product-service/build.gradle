@@ -25,19 +25,9 @@ dependencies {
 }
 
 jacocoTestReport {
-
+    dependsOn test
     executionData tasks.withType(Test)
 
-    reports {
-        xml.enabled true
-        xml.destination(file("${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"))
-        html.enabled true
-        html.destination(file("${jacoco.reportsDir}/all-tests/html"))
-    }
-}
-
-jacocoTestReport {
-    dependsOn test
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
@@ -48,7 +38,17 @@ jacocoTestReport {
             ])
         }))
     }
+
+    reports {
+        //xml.enabled true
+        //xml.destination(file("${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"))
+        html.enabled true
+        html.destination(file("${jacoco.reportsDir}/all-tests/html"))
+    }
+
+
 }
+
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport

@@ -1,5 +1,6 @@
 package com.experis.worldoffice.productservice.unit.controller;
 
+import com.experis.worldoffice.productservice.controller.ProductController;
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,10 +1,12 @@
-package com.experis.worldoffice.productservice.unit.controller;
+package com.experis.worldoffice.productservice.controller;
 
 import com.experis.worldoffice.productservice.dto.CurrectExistenceDto;
 import com.experis.worldoffice.productservice.dto.DecreaseStockDto;
+import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.dto.RequestFilterDto;
 import com.experis.worldoffice.productservice.exception.InsufficientStockException;
 import com.experis.worldoffice.productservice.service.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -28,6 +30,7 @@ public class ProductController {
     public ResponseEntity<?> index(@RequestParam(value = "page", defaultValue = "0") int page,
                                    @RequestParam(value = "size", defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
+        Page<ProductDto> productos= this.productService.findAll(pageable);
         return ResponseEntity.ok(this.productService.findAll(pageable));
     }
 

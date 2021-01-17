@@ -9,17 +9,6 @@ ALTER SCHEMA audit OWNER TO worldoffice;
 
 SET search_path TO pg_catalog,public,batch,product,audit;
 
-CREATE SEQUENCE public.brand_id_seq
-	INCREMENT BY 50
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
-
-ALTER SEQUENCE public.brand_id_seq OWNER TO worldoffice;
-
 CREATE SEQUENCE public.hibernate_sequence
 	INCREMENT BY 1
 	MINVALUE 1
@@ -31,17 +20,6 @@ CREATE SEQUENCE public.hibernate_sequence
 
 
 ALTER SEQUENCE public.hibernate_sequence OWNER TO worldoffice;
-
-CREATE SEQUENCE public.product_id_seq
-	INCREMENT BY 50
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
-
-ALTER SEQUENCE public.product_id_seq OWNER TO worldoffice;
 
 CREATE TABLE batch.batch_job_instance (
 	job_instance_id bigint NOT NULL,
@@ -181,7 +159,7 @@ CREATE TABLE product.product (
 	price numeric(21,6) NOT NULL,
 	stock bigint NOT NULL,
 	discount numeric(3,2) NOT NULL,
-	state_id integer NOT NULL,
+	product_state_id integer NOT NULL,
 	brand_id integer NOT NULL,
 	CONSTRAINT pk_product_product_id PRIMARY KEY (id),
 	CONSTRAINT uq_product_product_name UNIQUE (name)
@@ -190,7 +168,7 @@ CREATE TABLE product.product (
 
 ALTER TABLE product.product OWNER TO worldoffice;
 
-CREATE SEQUENCE product.state_id_seq
+CREATE SEQUENCE product.product_state_id_seq
 	INCREMENT BY 1
 	MINVALUE 1
 	MAXVALUE 2147483647
@@ -199,17 +177,17 @@ CREATE SEQUENCE product.state_id_seq
 	NO CYCLE
 	OWNED BY NONE;
 
-ALTER SEQUENCE product.state_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE product.product_state_id_seq OWNER TO worldoffice;
 
-CREATE TABLE product.state (
-	id integer NOT NULL DEFAULT nextval('product.state_id_seq'::regclass),
+CREATE TABLE product.product_state (
+	id integer NOT NULL DEFAULT nextval('product.product_state_id_seq'::regclass),
 	name character varying(50) NOT NULL,
 	CONSTRAINT pk_product_state_id PRIMARY KEY (id),
 	CONSTRAINT uq_product_state_name UNIQUE (name)
 
 );
 
-ALTER TABLE product.state OWNER TO worldoffice;
+ALTER TABLE product.product_state OWNER TO worldoffice;
 
 CREATE SEQUENCE product.brand_id_seq
 	INCREMENT BY 1
@@ -237,7 +215,7 @@ CREATE TABLE audit.product_aud (
 	rev integer NOT NULL,
 	revtype smallint,
 	stock bigint,
-	state_id bigint,
+	product_state_id bigint,
 	CONSTRAINT product_aud_pkey PRIMARY KEY (id,rev)
 
 );
@@ -273,8 +251,8 @@ ALTER TABLE batch.batch_job_execution_context ADD CONSTRAINT job_exec_ctx_fk FOR
 REFERENCES batch.batch_job_execution (job_execution_id) MATCH SIMPLE
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE product.product ADD CONSTRAINT fk_product_product_state FOREIGN KEY (state_id)
-REFERENCES product.state (id) MATCH FULL
+ALTER TABLE product.product ADD CONSTRAINT fk_product_product_state FOREIGN KEY (product_state_id)
+REFERENCES product.product_state (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE product.product ADD CONSTRAINT fk_product_product_brand FOREIGN KEY (brand_id)
@@ -294,7 +272,7 @@ GRANT CREATE,USAGE
    TO PUBLIC;
 
 -- Para eliminar --
-INSERT INTO product.state
+INSERT INTO product.product_state
 (id, name)
 VALUES(1, 'Active');
 
@@ -303,9 +281,9 @@ INSERT INTO product.brand
 VALUES(1, 'Apple');
 
 INSERT INTO product.product
-(id, "name", price, stock, discount, state_id, brand_id)
+(id, "name", price, stock, discount, product_state_id, brand_id)
 VALUES(1, 'Iphone 6', 600000.000000, 10, 0.10, 1, 1);
 INSERT INTO product.product
-(id, "name", price, stock, discount, state_id, brand_id)
+(id, "name", price, stock, discount, product_state_id, brand_id)
 VALUES(2, 'Iphone 7', 800000.000000, 5, 0.80, 1, 1);
 

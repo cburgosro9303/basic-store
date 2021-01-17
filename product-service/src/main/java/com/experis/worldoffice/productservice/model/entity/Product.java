@@ -35,7 +35,7 @@ public class Product {
     private Float discount;
 
     @ManyToOne
-    @JoinColumn(name="STATE_ID", nullable=false)
+    @JoinColumn(name="PRODUCT_STATE_ID", nullable=false)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private State state;
 
