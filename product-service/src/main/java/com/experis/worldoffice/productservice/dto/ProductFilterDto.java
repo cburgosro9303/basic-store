@@ -1,11 +1,17 @@
 package com.experis.worldoffice.productservice.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class ProductFilterDto implements Serializable {
 
+    @NotNull
     private ProductFieldEmun productFieldEmun;
+
+    @NotNull
     private FilterTypeEmun filterTypeEmun;
+
+    @NotNull
     private transient Object value;
 
     public ProductFilterDto() {

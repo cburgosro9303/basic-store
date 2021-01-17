@@ -9,8 +9,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
@@ -63,6 +65,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
      * @param decreseQuantity quantity of decrease stock
      */
     @Modifying(flushAutomatically = true)
+    @Transactional
     @Query("Update Product p set p.stock = p.stock - :decreaseValue where p.id = :productId")
     void decreaseProductStock(@Param("productId") Long productId, @Param("decreaseValue") Long decreseQuantity);
 
@@ -72,5 +75,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
      * @return current stock for selected product
      */
     @Query("select p.stock from Product p where p.id=:productId")
-    Long getCurrentProductStock(@Param("productId") Long productId);
+    Optional<Long> getCurrentProductStock(@Param("productId") Long productId);
 }

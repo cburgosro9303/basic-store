@@ -2,12 +2,15 @@ package com.experis.worldoffice.productservice.service.impl;
 
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.dto.ProductFilterDto;
+import com.experis.worldoffice.productservice.exception.InsufficientStockException;
 import com.experis.worldoffice.productservice.model.entity.Brand;
 import com.experis.worldoffice.productservice.model.entity.Product;
 import com.experis.worldoffice.productservice.model.specification.GenericSpecification;
 import com.experis.worldoffice.productservice.repository.ProductRepository;
 import com.experis.worldoffice.productservice.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final static Logger log = LogManager.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
     private final ObjectMapper om;
@@ -63,16 +68,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean decreaseStock(Long productId, Long decreaseQuantity) {
+    public Boolean decreaseStock(Long productId, Long decreaseQuantity) throws InsufficientStockException {
         Long initialStock = this.currentStock(productId);
-        productRepository.decreaseProductStock(productId, decreaseQuantity);
-        Long finalStock = this.currentStock(productId);
-        return initialStock - finalStock == decreaseQuantity;
+        if (initialStock >= decreaseQuantity) {
+            productRepository.decreaseProductStock(productId, decreaseQuantity);
+            Long finalStock = this.currentStock(productId);
+            return initialStock - finalStock == decreaseQuantity;
+        } else {
+            log.error("There are {} units in inventory of productId {} and {} was require",
+                initialStock, productId,decreaseQuantity);
+            throw new InsufficientStockException();
+        }
     }
 
     @Override
     public Long currentStock(Long productId) {
-        return productRepository.getCurrentProductStock(productId);
+        return productRepository.getCurrentProductStock(productId).orElse(0L);
     }
 
     @Override
@@ -82,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDto> findAllWithFilters(List<ProductFilterDto> filters, Pageable pageable) {
-        List<Specification<Product>> specifications= new ArrayList<>();
+        List<Specification<Product>> specifications = new ArrayList<>();
         specifications.add(new GenericSpecification.DefaultSpecification<>());
         filters.forEach(e -> {
             switch (e.getFilterTypeEmun()) {

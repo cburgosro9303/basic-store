@@ -2,6 +2,24 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integrationTest/java')
+        }
+        resources.srcDir file('src/integrationTest/resources')
+    }
+
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+    integrationTestRuntime.extendsFrom testRuntime
 }
 
 group = 'com.experis.worldoffice'
@@ -15,11 +33,36 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation('org.springframework.data:spring-data-envers')
+    implementation 'org.springframework.data:spring-data-envers'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    integrationTestImplementation 'com.h2database:h2'
+}
+
+jacocoTestReport {
+
+    executionData tasks.withType(Test).findAll { it.state.executed }
+
+    reports {
+        xml.enabled true
+        xml.destination(file("${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"))
+        html.enabled true
+        html.destination(file("${jacoco.reportsDir}/all-tests/html"))
+    }
 }
 
 test {
     useJUnitPlatform()
 }
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test

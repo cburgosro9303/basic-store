@@ -1,6 +1,6 @@
 spring:
   application:
-    name: batch
+    name: experis-product
   jpa:
     databasePlatform: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: none
@@ -21,6 +21,8 @@ spring:
     banner-mode: "off"
 
 server:
+  servlet:
+    context-path: /${spring.application.name}
   port: ${PORT:8080}
   mvc:
     favicon:
@@ -29,3 +31,23 @@ logging:
   level:
     ROOT: INFO
     com.experis: DEBUG
+springdoc:
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operationsSorter: method
+api:
+  info:
+    title: Server API Services Documentation
+    description: This document describes the API methods for server API operations. This document only describes the API methods intended to be used from internal systems.
+    termsOfService:
+    version: 1.0.0
+    contact:
+      url: https://www.linkedin.com/in/cesar-burgos-rodriguez-b1165293/
+      name: Cesar Burgos Rodriguez
+      email: cbr9303@gmail.com
+    license:
+      name:
+      url:
+  server:
+    url: http://localhost:8080/${spring.application.name}
+    description: Local environtment
