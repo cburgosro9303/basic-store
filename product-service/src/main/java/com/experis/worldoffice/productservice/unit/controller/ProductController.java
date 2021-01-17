@@ -1,4 +1,4 @@
-package com.experis.worldoffice.productservice.controller;
+package com.experis.worldoffice.productservice.unit.controller;
 
 import com.experis.worldoffice.productservice.dto.CurrectExistenceDto;
 import com.experis.worldoffice.productservice.dto.DecreaseStockDto;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @RestController
 @RequestMapping({"/product",})

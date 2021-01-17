@@ -1,7 +1,10 @@
-package com.experis.worldoffice.productservice.controller;
+package com.experis.worldoffice.productservice.integration.controller;
 
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.service.ProductService;
+import com.experis.worldoffice.productservice.unit.controller.ProductController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +17,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ProductController.class)
@@ -44,12 +52,63 @@ class ProductControllerTest {
     private List<ProductDto> productDtos;
     private Random rand;
     private ResultActions resultActions;
-
+    private MvcResult mvcResult;
+    private ObjectMapper om;
 
     public ProductControllerTest() {
         this.rand = new Random();
         this.productDtos = new ArrayList<>();
+        this.om=new ObjectMapper();
     }
+
+    private void thenIndexResultHasAnArrayInContentProperty() throws UnsupportedEncodingException, JsonProcessingException {
+        String response = this.mvcResult.getResponse().getContentAsString();
+        Map<String,Object> products = om.readValue(response,Map.class);
+            assertTrue(products.get("content") instanceof ArrayList);
+    }
+
+    private void thenIndexResponseOk()
+        throws Exception {
+
+        this.mvcResult = this.resultActions
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+        .andReturn();
+    }
+
+
+    @Test
+    void index() throws Exception {
+//        this.givenValidProductList();
+//        this.givenValidProductListPaginated();
+//        this.whenMvcMakeRequestToIndex();
+//        this.thenIndexResponseOk();
+//        this.thenIndexResultHasAnArrayInContentProperty();
+        givenValidPageable();
+        this.resultActions = mvc.perform(get("/product/")
+            .param("page",String.valueOf(page))
+            .param("size",String.valueOf(size))
+            .contentType(MediaType.APPLICATION_JSON));
+        this.mvcResult = this.resultActions
+            .andExpect(status().isOk())
+//            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+        String response = this.mvcResult.getResponse().getContentAsString();
+        Map<String,Object> products = om.readValue(response,Map.class);
+        assertTrue(products.get("content") instanceof ArrayList);
+    }
+//
+//    @Test
+//    void currentExistence() {
+//    }
+//
+//    @Test
+//    void indexFiltered() {
+//    }
+//
+//    @Test
+//    void decreaseStock() {
+//    }
 
     private void givenValidPage() {
         int int_random = rand.nextInt(MAX_PAGE);
@@ -83,7 +142,7 @@ class ProductControllerTest {
         this.givenValidPageable();
         int initialIndex = page * size;
         pageProducts = new PageImpl<>(
-            productDtos.subList(initialIndex, initialIndex + (size - 1)),
+            productDtos.subList(initialIndex, initialIndex + size ),
             this.pageable,
             productDtos.size()
         );
@@ -92,34 +151,9 @@ class ProductControllerTest {
 
     private void whenMvcMakeRequestToIndex() throws Exception {
         this.resultActions = mvc.perform(get("/product/")
+            .param("page",String.valueOf(page))
+            .param("size",String.valueOf(size))
             .contentType(MediaType.APPLICATION_JSON));
     }
 
-    @Test
-    public void thenIndexResponseOk()
-        throws Exception {
-        this.resultActions.andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE));
-    }
-
-
-    @Test
-    void index() throws Exception {
-        this.givenValidProductList();
-        this.givenValidProductListPaginated();
-        this.whenMvcMakeRequestToIndex();
-        this.thenIndexResponseOk();
-    }
-
-    @Test
-    void currentExistence() {
-    }
-
-    @Test
-    void indexFiltered() {
-    }
-
-    @Test
-    void decreaseStock() {
-    }
 }

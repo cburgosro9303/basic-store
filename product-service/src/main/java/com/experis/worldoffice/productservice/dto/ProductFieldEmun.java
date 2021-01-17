@@ -1,7 +1,5 @@
 package com.experis.worldoffice.productservice.dto;
 
-import java.math.BigDecimal;
-
 public enum ProductFieldEmun {
 
     ID("id"),

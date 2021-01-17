@@ -5,22 +5,6 @@ plugins {
     id 'jacoco'
 }
 
-sourceSets {
-    integrationTest {
-        java {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-            srcDir file('src/integrationTest/java')
-        }
-        resources.srcDir file('src/integrationTest/resources')
-    }
-
-}
-
-configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
-}
 
 group = 'com.experis.worldoffice'
 version = '0.0.1-SNAPSHOT'
@@ -38,13 +22,11 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
-    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
-    integrationTestImplementation 'com.h2database:h2'
 }
 
 jacocoTestReport {
 
-    executionData tasks.withType(Test).findAll { it.state.executed }
+    executionData tasks.withType(Test)
 
     reports {
         xml.enabled true
@@ -54,15 +36,23 @@ jacocoTestReport {
     }
 }
 
+jacocoTestReport {
+    dependsOn test
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/dto/**',
+                    '**/entity/**',
+                    '**/exception/**',
+                    '**/configuration/**',
+            ])
+        }))
+    }
+}
 test {
     useJUnitPlatform()
-}
-
-task integrationTest(type: Test) {
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
+    finalizedBy jacocoTestReport
     outputs.upToDateWhen { false }
 }
 
-check.dependsOn integrationTest
-integrationTest.mustRunAfter test
+check.dependsOn test
