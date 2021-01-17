@@ -1,8 +1,12 @@
 FROM postgres:latest
 
+ARG POSTGRES_USER_ARG
+ARG POSTGRES_PASSWORD_ARG
+ARG POSTGRES_DB_ARG
+
 ADD ./1_script.sql /docker-entrypoint-initdb.d/script.sql
 EXPOSE 5432/tcp
-ENV POSTGRES_USER=worldoffice
-ENV POSTGRES_PASSWORD=experis_password140121
-ENV POSTGRES_DB=experis
-RUN ["ls","-al","/docker-entrypoint-initdb.d"]
+ENV POSTGRES_USER=${POSTGRES_USER_ARG}
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD_ARG}
+ENV POSTGRES_DB=${POSTGRES_DB_ARG}
+
