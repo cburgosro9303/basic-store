@@ -1,7 +1,7 @@
 package com.experis.worldoffice.shoppingcart.service.impl;
 
-import com.experis.worldoffice.shoppingcart.dto.CurrentExistenceDto;
 import com.experis.worldoffice.shoppingcart.dto.AlterStockDto;
+import com.experis.worldoffice.shoppingcart.dto.CurrentExistenceDto;
 import com.experis.worldoffice.shoppingcart.exception.FailedRequestProductException;
 import com.experis.worldoffice.shoppingcart.service.ProductService;
 import org.apache.logging.log4j.LogManager;
@@ -9,11 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Objects;
 
 @Service
 public class ProductServiceImpl implements ProductService {

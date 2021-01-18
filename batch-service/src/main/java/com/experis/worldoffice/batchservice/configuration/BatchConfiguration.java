@@ -1,6 +1,7 @@
 package com.experis.worldoffice.batchservice.configuration;
 
 import com.experis.worldoffice.batchservice.dto.ProductDto;
+import com.experis.worldoffice.batchservice.job.experis.CleanDBTasklet;
 import com.experis.worldoffice.batchservice.job.experis.MoveFilesTasklet;
 import com.experis.worldoffice.batchservice.job.experis.ProductProcessor;
 import com.experis.worldoffice.batchservice.job.experis.ProductWriter;
@@ -37,6 +38,11 @@ public class BatchConfiguration {
     @Autowired
     private MoveFilesTasklet moveFilesTasklet;
 
+    @Autowired
+    private CleanDBTasklet cleanDBTasklet;
+
+
+
     @Value("${loadProducts.inputFile.url}")
     private Resource inputResource;
 
@@ -45,7 +51,8 @@ public class BatchConfiguration {
         return jobBuilderFactory
             .get("readCSVFileJob")
             .incrementer(new RunIdIncrementer())
-            .start(step())
+            .start(cleabDb())
+            .next(step())
             .next(moveFiles())
             .build();
     }
@@ -85,8 +92,8 @@ public class BatchConfiguration {
     public LineMapper<ProductDto> lineMapper() {
         DefaultLineMapper<ProductDto> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-        lineTokenizer.setNames(new String[]{"name", "brand", "price", "stock", "state", "discount"});
-        lineTokenizer.setIncludedFields(new int[]{0, 1, 2,3,4,5});
+        lineTokenizer.setNames("name", "brand", "price", "stock", "state", "discount");
+        lineTokenizer.setIncludedFields(0, 1, 2,3,4,5);
         BeanWrapperFieldSetMapper<ProductDto> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(ProductDto.class);
         lineMapper.setLineTokenizer(lineTokenizer);
@@ -99,6 +106,14 @@ public class BatchConfiguration {
         return stepBuilderFactory
             .get("moveFiles")
             .tasklet(moveFilesTasklet)
+            .build();
+    }
+
+    @Bean
+    protected Step cleabDb(){
+        return stepBuilderFactory
+            .get("cleanDb")
+            .tasklet(cleanDBTasklet)
             .build();
     }
 }

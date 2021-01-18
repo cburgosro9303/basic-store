@@ -1,7 +1,5 @@
 package com.experis.worldoffice.batchservice.dto;
 
-import java.math.BigDecimal;
-
 public class ProductDto {
 
     private String name;
