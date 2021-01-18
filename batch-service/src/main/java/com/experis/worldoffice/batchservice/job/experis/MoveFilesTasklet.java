@@ -13,12 +13,12 @@ import java.nio.file.FileSystemException;
 @Component
 public class MoveFilesTasklet implements Tasklet {
 
-    @Value("/tmp/input.csv")
+    @Value("/tmp/experis/input.csv")
     private String inputFile;
 
     @Override
     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-        String outputFile = "/tmp/processed_at_"+System.currentTimeMillis()+".csv";
+        String outputFile = "/tmp/experis/processed_at_"+System.currentTimeMillis()+".csv";
         File fileToMove = new File(inputFile);
         boolean isMoved = fileToMove.renameTo(new File(outputFile));
         if (!isMoved) {

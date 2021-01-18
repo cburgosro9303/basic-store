@@ -44,3 +44,7 @@ services:
           - LOG_LEVEL_PROJECT_ARG=DEBUG   
     depends_on:
       - db   
+    volumes:      
+      - type: bind
+        source: /tmp
+        target: /tmp/experis

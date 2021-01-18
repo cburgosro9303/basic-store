@@ -36,4 +36,4 @@ logging:
     com.experis: ${LOG_LEVEL_PROJECT:INFO}
 loadProducts:
   inputFile:
-    url: file:/tmp/input.csv
+    url: file:/tmp/experis/input.csv
