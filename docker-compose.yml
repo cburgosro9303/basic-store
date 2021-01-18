@@ -29,3 +29,18 @@ services:
       - "8080:8080"
     depends_on:
       - db   
+  batch-service:
+    build: 
+        context: ./batch-service
+        dockerfile: ./Dockerfile        
+        network: host
+        args:
+          - POSTGRES_USER_ARG=${POSTGRES_USER}
+          - POSTGRES_PASSWORD_ARG=${POSTGRES_PASSWORD}
+          - POSTGRES_DB_ARG=${POSTGRES_DB}
+          - DB_URL_ARG=db
+          - DB_PORT_ARG=5432
+          - LOG_LEVEL_ROOT_ARG=INFO
+          - LOG_LEVEL_PROJECT_ARG=DEBUG   
+    depends_on:
+      - db   

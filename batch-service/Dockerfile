@@ -29,5 +29,6 @@ COPY ./start.sh /deployments/experis/start.sh
 RUN chmod 755 /deployments/experis/start.sh
 RUN dos2unix /deployments/experis/start.sh
 
+RUN ["set"]
 
 CMD ["sh" ,"/deployments/experis/start.sh"] 
