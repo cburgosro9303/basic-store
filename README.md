@@ -42,10 +42,14 @@ Se separa por esquemas el modelo de datos según las operaciones sobre ellos por
 # Servicios
 
 Se cargan las colecciones de postman con sus respectivas firmas y descripciones para los consumos en la carpeta API
+- [product-service-swagger](./api/PostmanExperisProductAPICollection.json)
+- [shopping-cart-swagger](./api/PostmanExperisShoppingCartAPICollection.json)
 
 ## Swagger
 
 Se deja la dependencia para poder consumir las API&#39;s desde swagger
+- [product-service-swagger](http://localhost:8080/experis-product/swagger-ui/index.html?configUrl=/experis-product/v3/api-docs/swagger-config#/)
+- [shopping-cart-swagger](http://localhost:8081/experis-shopping-cart/swagger-ui/index.html?configUrl=/experis-shopping-cart/v3/api-docs/swagger-config#/)
 
 ## Pruebas
 
