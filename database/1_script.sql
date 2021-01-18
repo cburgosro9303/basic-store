@@ -271,19 +271,8 @@ GRANT CREATE,USAGE
    ON SCHEMA public
    TO PUBLIC;
 
--- Para eliminar --
-INSERT INTO product.product_state
-(id, name)
-VALUES(1, 'Active');
+INSERT INTO product.product_state(id, name)
+VALUES(1, 'Nuevo'),(2, 'Usado');
 
-INSERT INTO product.brand
-(id, "name")
-VALUES(1, 'Apple');
-
-INSERT INTO product.product
-(id, "name", price, stock, discount, product_state_id, brand_id)
-VALUES(1, 'Iphone 6', 600000.000000, 10, 0.10, 1, 1);
-INSERT INTO product.product
-(id, "name", price, stock, discount, product_state_id, brand_id)
-VALUES(2, 'Iphone 7', 800000.000000, 5, 0.80, 1, 1);
-
+INSERT INTO product.brand(id, "name")
+VALUES(1, 'Apple'),(2, 'HTC'),(3, 'Huawey'),(4, 'LG'),(5, 'Motorola'),(6, 'Samsung');
