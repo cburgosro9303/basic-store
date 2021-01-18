@@ -1,21 +1,20 @@
-package com.experis.worldoffice.productservice.model.entity;
+package com.experis.worldoffice.shoppingcart.dto;
 
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(schema = "PRODUCT", name = "PRODUCT_STATE")
-public class State {
+public class BrandDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brand_seq_gen")
-    @SequenceGenerator(name = "brand_seq_gen", sequenceName = "brand_id_seq",allocationSize = 1)
-    @Column(name="ID")
     private Long id;
-
-    @Column(name = "NAME",length = 50, unique = true)
     private String name;
 
+    public BrandDto() {
+    }
+
+    public BrandDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -35,7 +34,7 @@ public class State {
 
     @Override
     public String toString() {
-        return "State{" +
+        return "Brand{" +
             "id=" + id +
             ", name='" + name + '\'' +
             '}';
@@ -45,8 +44,8 @@ public class State {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        State state = (State) o;
-        return Objects.equals(getId(), state.getId()) && Objects.equals(getName(), state.getName());
+        BrandDto brand = (BrandDto) o;
+        return Objects.equals(getId(), brand.getId()) && Objects.equals(getName(), brand.getName());
     }
 
     @Override

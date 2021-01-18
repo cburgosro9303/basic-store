@@ -70,6 +70,17 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     void decreaseProductStock(@Param("productId") Long productId, @Param("decreaseValue") Long decreseQuantity);
 
     /**
+     * This method update product stock quantity
+     *
+     * @param productId       product to update
+     * @param decreseQuantity quantity of decrease stock
+     */
+    @Modifying(flushAutomatically = true)
+    @Transactional
+    @Query("Update Product p set p.stock = p.stock + :decreaseValue where p.id = :productId")
+    void increaseProductStock(@Param("productId") Long productId, @Param("decreaseValue") Long decreseQuantity);
+
+    /**
      * This method return current stock for a specific product
      * @param productId product to update
      * @return current stock for selected product

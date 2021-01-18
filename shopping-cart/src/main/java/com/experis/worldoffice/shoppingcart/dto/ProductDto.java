@@ -1,48 +1,53 @@
-package com.experis.worldoffice.productservice.model.entity;
+package com.experis.worldoffice.shoppingcart.dto;
 
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-import org.hibernate.envers.RelationTargetAuditMode;
-
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Entity
-@Table(schema = "PRODUCT", name = "PRODUCT")
-@Audited
-public class Product {
+public class ProductDto implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq_gen")
-    @SequenceGenerator(name = "product_seq_gen", sequenceName = "product.product_id_seq",allocationSize = 1)
-    @Column(name="ID")
+    @NotNull
     private Long id;
 
-    @Column(name = "NAME",length = 100, unique = true)
-    @NotAudited
+    @NotBlank
     private String name;
 
-    @Column(name = "PRICE", precision = 21, scale = 6)
-    @NotAudited
+    @NotNull
     private BigDecimal price;
 
-    @Column(name = "STOCK")
+    @NotNull
     private Long stock;
 
-    @Column(name = "discount", precision = 4, scale = 3)
-    @NotAudited
+    @NotNull
     private Float discount;
 
-    @ManyToOne
-    @JoinColumn(name="PRODUCT_STATE_ID", nullable=false)
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    private State state;
+    @NotNull
+    private StateDto state;
 
-    @ManyToOne
-    @JoinColumn(name="BRAND_ID", nullable=false)
-    @NotAudited
-    private Brand brand;
+    @NotNull
+    private BrandDto brand;
+
+    public ProductDto() {
+    }
+
+    public ProductDto(Long id, String name, BigDecimal price, Long stock, Float discount, StateDto state,
+                      BrandDto brand) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.discount = discount;
+        this.state = state;
+        this.brand = brand;
+    }
+
+    public ProductDto(Long id, String name, BigDecimal price, Long stock, Float discount, Long stateId,
+                      String stateName, Long brandId, String brandName) {
+        this(id, name, price, stock, discount, new StateDto(stateId, stateName), new BrandDto(brandId, brandName));
+
+    }
 
     public Long getId() {
         return id;
@@ -84,19 +89,19 @@ public class Product {
         this.discount = discount;
     }
 
-    public State getState() {
+    public StateDto getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(StateDto state) {
         this.state = state;
     }
 
-    public Brand getBrand() {
+    public BrandDto getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(BrandDto brand) {
         this.brand = brand;
     }
 
@@ -117,7 +122,7 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
+        ProductDto product = (ProductDto) o;
         return Objects.equals(getId(), product.getId()) && Objects.equals(getName(), product.getName()) && Objects.equals(getPrice(), product.getPrice()) && Objects.equals(getStock(), product.getStock()) && Objects.equals(getDiscount(), product.getDiscount()) && Objects.equals(getState(), product.getState()) && Objects.equals(getBrand(), product.getBrand());
     }
 

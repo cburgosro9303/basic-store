@@ -81,6 +81,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void increaseStock(Long productId, Long decreaseQuantity) {
+        productRepository.increaseProductStock(productId, decreaseQuantity);
+    }
+
+    @Override
     public Long currentStock(Long productId) {
         return productRepository.getCurrentProductStock(productId).orElse(0L);
     }

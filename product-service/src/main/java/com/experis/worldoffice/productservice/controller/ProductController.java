@@ -1,7 +1,7 @@
 package com.experis.worldoffice.productservice.controller;
 
-import com.experis.worldoffice.productservice.dto.CurrectExistenceDto;
-import com.experis.worldoffice.productservice.dto.DecreaseStockDto;
+import com.experis.worldoffice.productservice.dto.CurrentExistenceDto;
+import com.experis.worldoffice.productservice.dto.AlterStockDto;
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.dto.RequestFilterDto;
 import com.experis.worldoffice.productservice.exception.InsufficientStockException;
@@ -47,9 +47,9 @@ public interface ProductController {
         description = "Search product by their id and return current existence")
     @ApiResponse(
         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-            schema = @Schema(name = "CurrentExistenceDto",implementation = CurrectExistenceDto.class))
+            schema = @Schema(name = "CurrentExistenceDto",implementation = CurrentExistenceDto.class))
     )
-    ResponseEntity<CurrectExistenceDto> currentExistence(@Parameter(description = "Valid product id") Long productId);
+    ResponseEntity<CurrentExistenceDto> currentExistence(@Parameter(description = "Valid product id") Long productId);
 
     /**
      * Find all registered products with given filters
@@ -71,7 +71,7 @@ public interface ProductController {
     /**
      * decrease stock of a product
      *
-     * @param decreaseStockDto
+     * @param alterStockDto
      * @return Boolean true if success else false
      * @throws InsufficientStockException when decrease value is greater than current product stock
      */
@@ -81,7 +81,17 @@ public interface ProductController {
         content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(name = "Boolean",implementation = Boolean.class))
     )
-    ResponseEntity<Boolean> decreaseStock(DecreaseStockDto decreaseStockDto) throws InsufficientStockException;
+    ResponseEntity<Boolean> decreaseStock(AlterStockDto alterStockDto) throws InsufficientStockException;
+
+    /**
+     * increase stock of a product
+     *
+     * @param alterStockDto
+     * @return Boolean true if success else false
+     * @throws InsufficientStockException when decrease value is greater than current product stock
+     */
+    @Operation(summary = "Increase Stock",description = "Increase current product existence of given id")
+    ResponseEntity<Void> increaseStock(AlterStockDto alterStockDto);
 
 
 }

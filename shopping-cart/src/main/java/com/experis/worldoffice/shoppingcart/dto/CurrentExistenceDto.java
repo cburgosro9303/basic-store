@@ -1,16 +1,16 @@
-package com.experis.worldoffice.productservice.dto;
+package com.experis.worldoffice.shoppingcart.dto;
 
 import java.io.Serializable;
 
-public class CurrectExistenceDto implements Serializable {
+public class CurrentExistenceDto implements Serializable {
 
     private Long productId;
     private Long currentExistence;
 
-    public CurrectExistenceDto() {
+    public CurrentExistenceDto() {
     }
 
-    public CurrectExistenceDto(Long productId, Long currentExistence) {
+    public CurrentExistenceDto(Long productId, Long currentExistence) {
         this.productId = productId;
         this.currentExistence = currentExistence;
     }

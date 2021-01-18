@@ -1,8 +1,8 @@
 package com.experis.worldoffice.productservice.controller.impl;
 
 import com.experis.worldoffice.productservice.controller.ProductController;
-import com.experis.worldoffice.productservice.dto.CurrectExistenceDto;
-import com.experis.worldoffice.productservice.dto.DecreaseStockDto;
+import com.experis.worldoffice.productservice.dto.CurrentExistenceDto;
+import com.experis.worldoffice.productservice.dto.AlterStockDto;
 import com.experis.worldoffice.productservice.dto.ProductDto;
 import com.experis.worldoffice.productservice.dto.RequestFilterDto;
 import com.experis.worldoffice.productservice.exception.InsufficientStockException;
@@ -36,9 +36,9 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @GetMapping(name="/existence",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CurrectExistenceDto> currentExistence(@PathParam("productId") Long productId) {
-        CurrectExistenceDto currectExistenceDto = new CurrectExistenceDto(productId, this.productService.currentStock(productId));
-        return ResponseEntity.ok(currectExistenceDto);
+    public ResponseEntity<CurrentExistenceDto> currentExistence(@PathParam("productId") Long productId) {
+        CurrentExistenceDto currentExistenceDto = new CurrentExistenceDto(productId, this.productService.currentStock(productId));
+        return ResponseEntity.ok(currentExistenceDto);
     }
 
     @PostMapping(name="/",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,9 +50,15 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @PostMapping(value = "/decreaseStock",produces = MediaType.ALL_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Boolean> decreaseStock(@Valid @RequestBody DecreaseStockDto decreaseStockDto) throws InsufficientStockException {
-        return productService.decreaseStock(decreaseStockDto.getProductId(), decreaseStockDto.getDecreaseValue()) ?
+    public ResponseEntity<Boolean> decreaseStock(@Valid @RequestBody AlterStockDto alterStockDto) throws InsufficientStockException {
+        return productService.decreaseStock(alterStockDto.getProductId(), alterStockDto.getOperationValue()) ?
             ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping(value = "/increaseStock",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> increaseStock(@Valid @RequestBody AlterStockDto alterStockDto) {
+        productService.increaseStock(alterStockDto.getProductId(), alterStockDto.getOperationValue()) ;
+        return ResponseEntity.ok().build();
     }
 
 

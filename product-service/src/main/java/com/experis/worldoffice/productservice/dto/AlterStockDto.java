@@ -4,7 +4,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class DecreaseStockDto implements Serializable {
+public class AlterStockDto implements Serializable {
 
     @NotNull
     @Min(1L)
@@ -12,14 +12,14 @@ public class DecreaseStockDto implements Serializable {
 
     @NotNull
     @Min(1L)
-    private Long decreaseValue;
+    private Long operationValue;
 
-    public DecreaseStockDto() {
+    public AlterStockDto() {
     }
 
-    public DecreaseStockDto(Long productId, Long decreaseValue) {
+    public AlterStockDto(Long productId, Long operationValue) {
         this.productId = productId;
-        this.decreaseValue = decreaseValue;
+        this.operationValue = operationValue;
     }
 
     public Long getProductId() {
@@ -30,19 +30,19 @@ public class DecreaseStockDto implements Serializable {
         this.productId = productId;
     }
 
-    public Long getDecreaseValue() {
-        return decreaseValue;
+    public Long getOperationValue() {
+        return operationValue;
     }
 
-    public void setDecreaseValue(Long decreaseValue) {
-        this.decreaseValue = decreaseValue;
+    public void setOperationValue(Long operationValue) {
+        this.operationValue = operationValue;
     }
 
     @Override
     public String toString() {
         return "DecreaseStockDto{" +
             "productId=" + productId +
-            ", decreaseValue=" + decreaseValue +
+            ", decreaseValue=" + operationValue +
             '}';
     }
 }
