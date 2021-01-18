@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: experis-product-batch
+  batch:
+    tablePrefix: batch.BATCH_
+    job:
+      enabled: false
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: none
+    open-in-view: false
+    show-sql: true
+    properties:
+      org:
+        hibernate:
+          envers:
+            default_schema: audit
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://${DB_URL:localhost}:${DB_PORT:5432}/${DB_NAME:experis}
+    password: ${DB_PASSWORD:experis_password140121}
+    username: ${DB_USERNAME:worldoffice}
+    hikari:
+      idle-timeout: 10
+
+  main:
+    banner-mode: "off"
+
+server:
+  servlet:
+    context-path: /${spring.application.name}
+  port: ${PORT:8080}
+logging:
+  level:
+    ROOT: ${LOG_LEVEL_ROOT:INFO}
+    com.experis: ${LOG_LEVEL_PROJECT:INFO}
+loadProducts:
+  inputFile:
+    url: file:/tmp/experis/input.csv

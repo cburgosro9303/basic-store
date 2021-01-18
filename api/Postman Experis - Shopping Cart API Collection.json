@@ -1,0 +1,380 @@
+{
+	"info": {
+		"_postman_id": "8b9f430a-70ad-4cc1-9079-0902c6cb5c88",
+		"name": "Experis - Shopping Cart",
+		"description": "This document describes the API methods for server API operations. This document only describes the API methods intended to be used from internal systems.\n\nContact Support:\n Name: Cesar Burgos Rodriguez\n Email: cbr9303@gmail.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "shop",
+			"item": [
+				{
+					"name": "add Product",
+					"item": [
+						{
+							"name": "add products to cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"brand\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"discount\": \"<float>\",\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"price\": \"<number>\",\n    \"state\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"stock\": \"<long>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/shop/addProduct",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shop",
+										"addProduct"
+									],
+									"variable": [
+										{
+											"key": "purchaseId",
+											"value": "<long>",
+											"type": "string",
+											"description": "(Required) purchase id of current cart"
+										}
+									]
+								},
+								"description": "Add products to cart when exist or create one and add into"
+							},
+							"response": [
+								{
+									"name": "default response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"brand\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"discount\": \"<float>\",\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"price\": \"<number>\",\n    \"state\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"stock\": \"<long>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/shop/addProduct",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"shop",
+												"addProduct"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"id\": -45567625,\n \"purchaseId\": 79929911,\n \"shopDate\": \"2011-07-11T22:49:23.035Z\",\n \"shopStateEnum\": \"COMPLETE\",\n \"cartProducts\": [\n  {\n   \"id\": -38467642,\n   \"name\": \"nostrud mol\",\n   \"brand\": \"eu\",\n   \"price\": 59896790.19995791,\n   \"discount\": 29214360.00826238,\n   \"shoppingCartDto\": {\n    \"id\": 62961927,\n    \"purchaseId\": 94205437,\n    \"shopDate\": \"1980-10-14T01:45:53.734Z\",\n    \"shopStateEnum\": \"IN_PROGRESS\",\n    \"cartProducts\": [\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     },\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     }\n    ]\n   }\n  },\n  {\n   \"id\": 38207514,\n   \"name\": \"in minim officia\",\n   \"brand\": \"dolore nulla in cillum adipisicin\",\n   \"price\": 5325508.967143923,\n   \"discount\": -28228693.78642334,\n   \"shoppingCartDto\": {\n    \"id\": 14176900,\n    \"purchaseId\": -43409954,\n    \"shopDate\": \"1988-05-10T08:21:44.425Z\",\n    \"shopStateEnum\": \"COMPLETE\",\n    \"cartProducts\": [\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     },\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     }\n    ]\n   }\n  }\n ]\n}"
+								}
+							]
+						},
+						{
+							"name": "add products to cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"brand\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"discount\": \"<float>\",\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"price\": \"<number>\",\n    \"state\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"stock\": \"<long>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/shop/addProduct/:purchaseId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shop",
+										"addProduct",
+										":purchaseId"
+									],
+									"variable": [
+										{
+											"key": "purchaseId",
+											"value": "<long>",
+											"type": "string",
+											"description": "(Required) purchase id of current cart"
+										}
+									]
+								},
+								"description": "Add products to cart when exist or create one and add into"
+							},
+							"response": [
+								{
+									"name": "default response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"brand\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"discount\": \"<float>\",\n    \"id\": \"<long>\",\n    \"name\": \"<string>\",\n    \"price\": \"<number>\",\n    \"state\": {\n        \"id\": \"<long>\",\n        \"name\": \"<string>\"\n    },\n    \"stock\": \"<long>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/shop/addProduct/:purchaseId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"shop",
+												"addProduct",
+												":purchaseId"
+											],
+											"variable": [
+												{
+													"key": "purchaseId"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"id\": -45567625,\n \"purchaseId\": 79929911,\n \"shopDate\": \"2011-07-11T22:49:23.035Z\",\n \"shopStateEnum\": \"COMPLETE\",\n \"cartProducts\": [\n  {\n   \"id\": -38467642,\n   \"name\": \"nostrud mol\",\n   \"brand\": \"eu\",\n   \"price\": 59896790.19995791,\n   \"discount\": 29214360.00826238,\n   \"shoppingCartDto\": {\n    \"id\": 62961927,\n    \"purchaseId\": 94205437,\n    \"shopDate\": \"1980-10-14T01:45:53.734Z\",\n    \"shopStateEnum\": \"IN_PROGRESS\",\n    \"cartProducts\": [\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     },\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     }\n    ]\n   }\n  },\n  {\n   \"id\": 38207514,\n   \"name\": \"in minim officia\",\n   \"brand\": \"dolore nulla in cillum adipisicin\",\n   \"price\": 5325508.967143923,\n   \"discount\": -28228693.78642334,\n   \"shoppingCartDto\": {\n    \"id\": 14176900,\n    \"purchaseId\": -43409954,\n    \"shopDate\": \"1988-05-10T08:21:44.425Z\",\n    \"shopStateEnum\": \"COMPLETE\",\n    \"cartProducts\": [\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     },\n     {\n      \"value\": \"<Circular reference to #/components/schemas/CartProductDto detected>\"\n     }\n    ]\n   }\n  }\n ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "finish Buying",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shop/purchase/:purchaseId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shop",
+								"purchase",
+								":purchaseId"
+							],
+							"variable": [
+								{
+									"key": "purchaseId",
+									"value": "<long>",
+									"type": "string",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/shop/purchase/:purchaseId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shop",
+										"purchase",
+										":purchaseId"
+									],
+									"variable": [
+										{
+											"key": "purchaseId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Find all cart products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shop/:purchaseId?page=0&size=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shop",
+								":purchaseId"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "number grater than or equal to 0"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "number grater than to 0"
+								}
+							],
+							"variable": [
+								{
+									"key": "purchaseId",
+									"value": "<long>",
+									"type": "string",
+									"description": "(Required) purchase id of current cart"
+								}
+							]
+						},
+						"description": "Find all cart products and return a paginated object"
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/shop/:purchaseId?page=0&size=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shop",
+										":purchaseId"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									],
+									"variable": [
+										{
+											"key": "purchaseId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"totalPages\": -73855753,\n \"totalElements\": 42211182,\n \"number\": -80987862,\n \"sort\": {\n  \"unsorted\": true,\n  \"sorted\": true,\n  \"empty\": false\n },\n \"first\": true,\n \"last\": true,\n \"numberOfElements\": 88878189,\n \"pageable\": {\n  \"sort\": {\n   \"unsorted\": true,\n   \"sorted\": true,\n   \"empty\": false\n  },\n  \"paged\": true,\n  \"unpaged\": true,\n  \"pageNumber\": -47449946,\n  \"pageSize\": -76050930,\n  \"offset\": 37828319\n },\n \"size\": 15901694,\n \"empty\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete all cart products",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shop/cleanCart/:purchaseId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shop",
+								"cleanCart",
+								":purchaseId"
+							],
+							"variable": [
+								{
+									"key": "purchaseId",
+									"value": "<long>",
+									"type": "string",
+									"description": "(Required) purchase id of current cart"
+								}
+							]
+						},
+						"description": "Delete all cart products when cart exist an has elements"
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/shop/cleanCart/:purchaseId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shop",
+										"cleanCart",
+										":purchaseId"
+									],
+									"variable": [
+										{
+											"key": "purchaseId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "true"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081/experis-shopping-cart",
+			"type": "string"
+		}
+	]
+}
