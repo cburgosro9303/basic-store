@@ -1,12 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.2'
+    id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'jacoco'
+    id "org.sonarqube" version "3.1.1"
 }
 
 
-group = 'com.experis.worldoffice'
+group = 'com.techbox'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -19,7 +20,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.data:spring-data-envers'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.6'
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.18'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.18'
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -35,17 +41,18 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
                     '**/dto/**',
-                    '**/entity/**',
+                    '**/model/**',
                     '**/exception/**',
                     '**/configuration/**',
+                    '**/ProductServiceApplication.java'
             ])
         }))
     }
 
 
     reports {
-        //xml.enabled true
-        //xml.destination(file("${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"))
+        xml.enabled true
+        xml.destination(file("${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"))
         html.enabled true
         html.destination(file("${jacoco.reportsDir}/all-tests/html"))
     }
@@ -61,3 +68,23 @@ test {
 }
 
 check.dependsOn test
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "com.techbox:product-service"
+        property "sonar.host.url", System.getenv("SONAR_URL")
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.source", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.coverage.exclusions", "**/dto/**,**/model/**,**/exception/**,**/repository/**,**/configuration/**,**/ProductServiceApplication.java"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.java.binaries", "build/classes/java/main"
+        property "sonar.java.test.binaries", "build/classes/java/test"
+        property "sonar.junit.reportPaths", "build/test-results/test"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${jacoco.reportsDir}/all-tests/jacocoAllTestReport.xml"
+        property "sonar.login", "53495049eca976a809cfb57da2fd1bc5f82045f4"
+    }
+}
+
+tasks["test"].finalizedBy "jacocoTestReport"
+//tasks["jacocoTestReport"].finalizedBy "sonarqube"

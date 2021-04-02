@@ -1,6 +1,6 @@
 spring:
   application:
-    name: experis-product
+    name: techbox-product
   jpa:
     databasePlatform: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: none
@@ -13,9 +13,9 @@ spring:
             default_schema: audit
   datasource:
     platform: postgres
-    url: jdbc:postgresql://${DB_URL:localhost}:${DB_PORT:5432}/${DB_NAME:experis}
-    password: ${DB_PASSWORD:experis_password140121}
-    username: ${DB_USERNAME:worldoffice}
+    url: jdbc:postgresql://${DB_URL:localhost}:${DB_PORT:5432}/${DB_NAME:techbox}
+    password: ${DB_PASSWORD:TechBox_PW020821*}
+    username: ${DB_USERNAME:techbox}
   main:
     banner-mode: "off"
 server:
@@ -28,11 +28,15 @@ server:
 logging:
   level:
     ROOT: ${LOG_LEVEL_ROOT:INFO}
-    com.experis: ${LOG_LEVEL_PROJECT:INFO}
+    com.techbox: ${LOG_LEVEL_PROJECT:INFO}
 springdoc:
   swagger-ui:
-    path: /swagger-ui-custom.html
+    path: /swagger-custom.html
     operationsSorter: method
+    disable-swagger-default-url: true
+    urls:
+      - name: Product API
+        url: /techbox-product/v3/api-docs
 api:
   info:
     title: Server API Services Documentation
