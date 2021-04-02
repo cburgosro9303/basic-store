@@ -1,6 +1,18 @@
 version: '3.8'
-
-services:      
+services: 
+  db:  
+    container_name: Database  
+    restart: always
+    build: 
+        context: ./database
+        dockerfile: ./Dockerfile
+        network: host
+        args:
+          - POSTGRES_USER_ARG=${POSTGRES_USER}
+          - POSTGRES_PASSWORD_ARG=${POSTGRES_PASSWORD}
+          - POSTGRES_DB_ARG=${POSTGRES_DB}
+    ports:
+      - "5432:5432"      
   product-service:
     container_name: product-service
     build: 
@@ -17,7 +29,9 @@ services:
           - LOG_LEVEL_PROJECT_ARG=DEBUG
           - SONAR_URL_ARG=${SONAR_URL}
     ports:
-      - "8080:8080"    
+      - "8080:8080" 
+    depends_on:
+      - db   
 networks: 
   default:
       external:
