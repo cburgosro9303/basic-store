@@ -3,9 +3,9 @@
 -- PostgreSQL version: 13.0
 -- Project Site: pgmodeler.io
 -- Model Author: ---
--- -- object: worldoffice | type: ROLE --
--- -- DROP ROLE IF EXISTS worldoffice;
--- CREATE ROLE worldoffice WITH 
+-- -- object: techbox | type: ROLE --
+-- -- DROP ROLE IF EXISTS techbox;
+-- CREATE ROLE techbox WITH 
 -- 	SUPERUSER
 -- 	CREATEDB
 -- 	CREATEROLE
@@ -25,28 +25,39 @@
 -- DROP SCHEMA IF EXISTS batch CASCADE;
 CREATE SCHEMA batch;
 -- ddl-end --
-ALTER SCHEMA batch OWNER TO worldoffice;
+ALTER SCHEMA batch OWNER TO techbox;
 -- ddl-end --
 
 -- object: product | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS product CASCADE;
 CREATE SCHEMA product;
 -- ddl-end --
-ALTER SCHEMA product OWNER TO worldoffice;
+ALTER SCHEMA product OWNER TO techbox;
 -- ddl-end --
+
+create user sonarqube with encrypted password 'Sonarqube123*';
+
+create database sonarqube;
+ALTER database sonarqube OWNER TO sonarqube;
+
+grant all privileges on database sonarqube to sonarqube;
+
+
+
+
 
 -- object: audit | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS audit CASCADE;
 CREATE SCHEMA audit;
 -- ddl-end --
-ALTER SCHEMA audit OWNER TO worldoffice;
+ALTER SCHEMA audit OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS shop CASCADE;
 CREATE SCHEMA shop;
 -- ddl-end --
-ALTER SCHEMA shop OWNER TO worldoffice;
+ALTER SCHEMA shop OWNER TO techbox;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,batch,product,audit,shop;
@@ -64,7 +75,7 @@ CREATE SEQUENCE public.hibernate_sequence
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE public.hibernate_sequence OWNER TO worldoffice;
+ALTER SEQUENCE public.hibernate_sequence OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_instance | type: TABLE --
@@ -79,7 +90,7 @@ CREATE TABLE batch.batch_job_instance (
 
 );
 -- ddl-end --
-ALTER TABLE batch.batch_job_instance OWNER TO worldoffice;
+ALTER TABLE batch.batch_job_instance OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_execution | type: TABLE --
@@ -100,7 +111,7 @@ CREATE TABLE batch.batch_job_execution (
 
 );
 -- ddl-end --
-ALTER TABLE batch.batch_job_execution OWNER TO worldoffice;
+ALTER TABLE batch.batch_job_execution OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_execution_params | type: TABLE --
@@ -116,7 +127,7 @@ CREATE TABLE batch.batch_job_execution_params (
 	identifying character(1) NOT NULL
 );
 -- ddl-end --
-ALTER TABLE batch.batch_job_execution_params OWNER TO worldoffice;
+ALTER TABLE batch.batch_job_execution_params OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_step_execution | type: TABLE --
@@ -144,7 +155,7 @@ CREATE TABLE batch.batch_step_execution (
 
 );
 -- ddl-end --
-ALTER TABLE batch.batch_step_execution OWNER TO worldoffice;
+ALTER TABLE batch.batch_step_execution OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_step_execution_context | type: TABLE --
@@ -157,7 +168,7 @@ CREATE TABLE batch.batch_step_execution_context (
 
 );
 -- ddl-end --
-ALTER TABLE batch.batch_step_execution_context OWNER TO worldoffice;
+ALTER TABLE batch.batch_step_execution_context OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_execution_context | type: TABLE --
@@ -170,7 +181,7 @@ CREATE TABLE batch.batch_job_execution_context (
 
 );
 -- ddl-end --
-ALTER TABLE batch.batch_job_execution_context OWNER TO worldoffice;
+ALTER TABLE batch.batch_job_execution_context OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_step_execution_seq | type: SEQUENCE --
@@ -185,7 +196,7 @@ CREATE SEQUENCE batch.batch_step_execution_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE batch.batch_step_execution_seq OWNER TO worldoffice;
+ALTER SEQUENCE batch.batch_step_execution_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_execution_seq | type: SEQUENCE --
@@ -200,7 +211,7 @@ CREATE SEQUENCE batch.batch_job_execution_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE batch.batch_job_execution_seq OWNER TO worldoffice;
+ALTER SEQUENCE batch.batch_job_execution_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: batch.batch_job_seq | type: SEQUENCE --
@@ -215,7 +226,7 @@ CREATE SEQUENCE batch.batch_job_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE batch.batch_job_seq OWNER TO worldoffice;
+ALTER SEQUENCE batch.batch_job_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.product_id_seq | type: SEQUENCE --
@@ -230,7 +241,7 @@ CREATE SEQUENCE product.product_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE product.product_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE product.product_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.product | type: TABLE --
@@ -248,7 +259,7 @@ CREATE TABLE product.product (
 
 );
 -- ddl-end --
-ALTER TABLE product.product OWNER TO worldoffice;
+ALTER TABLE product.product OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.product_state_id_seq | type: SEQUENCE --
@@ -263,7 +274,7 @@ CREATE SEQUENCE product.product_state_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE product.product_state_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE product.product_state_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.product_state | type: TABLE --
@@ -276,7 +287,7 @@ CREATE TABLE product.product_state (
 
 );
 -- ddl-end --
-ALTER TABLE product.product_state OWNER TO worldoffice;
+ALTER TABLE product.product_state OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.brand_id_seq | type: SEQUENCE --
@@ -291,7 +302,7 @@ CREATE SEQUENCE product.brand_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE product.brand_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE product.brand_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: product.brand | type: TABLE --
@@ -304,7 +315,7 @@ CREATE TABLE product.brand (
 
 );
 -- ddl-end --
-ALTER TABLE product.brand OWNER TO worldoffice;
+ALTER TABLE product.brand OWNER TO techbox;
 -- ddl-end --
 
 -- object: audit.product_aud | type: TABLE --
@@ -319,7 +330,7 @@ CREATE TABLE audit.product_aud (
 
 );
 -- ddl-end --
-ALTER TABLE audit.product_aud OWNER TO worldoffice;
+ALTER TABLE audit.product_aud OWNER TO techbox;
 -- ddl-end --
 
 -- object: audit.revinfo | type: TABLE --
@@ -331,7 +342,7 @@ CREATE TABLE audit.revinfo (
 
 );
 -- ddl-end --
-ALTER TABLE audit.revinfo OWNER TO worldoffice;
+ALTER TABLE audit.revinfo OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop.shopping_cart_id_seq | type: SEQUENCE --
@@ -346,7 +357,7 @@ CREATE SEQUENCE shop.shopping_cart_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE shop.shopping_cart_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE shop.shopping_cart_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop.shopping_cart | type: TABLE --
@@ -362,7 +373,7 @@ CREATE TABLE shop.shopping_cart (
 -- ddl-end --
 COMMENT ON COLUMN shop.shopping_cart.shop_date IS E'date when purchase change state';
 -- ddl-end --
-ALTER TABLE shop.shopping_cart OWNER TO worldoffice;
+ALTER TABLE shop.shopping_cart OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop.shop_state_id_seq | type: SEQUENCE --
@@ -377,7 +388,7 @@ CREATE SEQUENCE shop.shop_state_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE shop.shop_state_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE shop.shop_state_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop.cart_product_id_seq | type: SEQUENCE --
@@ -392,7 +403,7 @@ CREATE SEQUENCE shop.cart_product_id_seq
 	OWNED BY NONE;
 
 -- ddl-end --
-ALTER SEQUENCE shop.cart_product_id_seq OWNER TO worldoffice;
+ALTER SEQUENCE shop.cart_product_id_seq OWNER TO techbox;
 -- ddl-end --
 
 -- object: shop.cart_product | type: TABLE --
@@ -409,7 +420,7 @@ CREATE TABLE shop.cart_product (
 
 );
 -- ddl-end --
-ALTER TABLE shop.cart_product OWNER TO worldoffice;
+ALTER TABLE shop.cart_product OWNER TO techbox;
 -- ddl-end --
 
 -- object: job_inst_exec_fk | type: CONSTRAINT --
@@ -478,7 +489,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- object: "grant_CU_64ccc5561e" | type: PERMISSION --
 GRANT CREATE,USAGE
    ON SCHEMA public
-   TO worldoffice;
+   TO techbox;
 -- ddl-end --
 
 -- object: "grant_CU_cd8e46e7b6" | type: PERMISSION --
