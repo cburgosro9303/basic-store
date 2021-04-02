@@ -24,3 +24,11 @@ hs_err_pid*
 ./product-service/gradle*
 ./shopping-cart/gradle*
 ./batch-service/gradle*
+**/gradlew
+**/.gradle
+**/.hprof
+.idea
+*.iws
+*.iml
+*.ipr
+**/build
