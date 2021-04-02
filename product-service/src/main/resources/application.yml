@@ -31,8 +31,12 @@ logging:
     com.techbox: ${LOG_LEVEL_PROJECT:INFO}
 springdoc:
   swagger-ui:
-    path: /swagger-ui-custom.html
+    path: /swagger-custom.html
     operationsSorter: method
+    disable-swagger-default-url: true
+    urls:
+      - name: Product API
+        url: /techbox-product/v3/api-docs
 api:
   info:
     title: Server API Services Documentation

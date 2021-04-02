@@ -87,4 +87,4 @@ sonarqube {
 }
 
 tasks["test"].finalizedBy "jacocoTestReport"
-tasks["jacocoTestReport"].finalizedBy "sonarqube"
+//tasks["jacocoTestReport"].finalizedBy "sonarqube"
